@@ -1,0 +1,76 @@
+{
+  "title": "Facettes | Global Speaker Bureau",
+  "nav_speakers": "Speakers",
+  "nav_services": "Services",
+  "nav_contact": "Contact",
+  "nav_speakers_mobile": "Speakers",
+  "nav_services_mobile": "Services",
+  "nav_contact_mobile": "Contact",
+  "hero_tagline": "Where Bold Ideas Meet Global Reach",
+  "hero_subheading": "The agency for intersectional talent, shaping the future of culture, commerce, and impact.",
+  "hero_cta": "EXPLORE TALENT",
+  
+  "speakers_heading": "Our Featured Voices",
+  "speakers_subtext": "Leaders across technology, innovation, and culture.",
+  "services_heading": "Comprehensive Event Services",
+  "services_subtext": "Beyond booking, we ensure seamless execution and maximum impact.",
+  "contact_heading": "Ready to Book a Speaker?",
+  "contact_tagline": "Tell us about your event, audience, and objectives, and the Facettes team will find the perfect voice.",
+
+  "speaker_1_title": "Futurologist & AI Ethicist",
+  "speaker_1_bio_short": "Driving ethical AI frameworks and the intersection of human creativity.",
+  "speaker_2_title": "Organizational Psychologist",
+  "speaker_2_bio_short": "Optimizing leadership, team resilience, and high-performance culture.",
+  "speaker_3_title": "Sustainable Design Advocate",
+  "speaker_3_bio_short": "Pioneering circular economy models for global manufacturing and urban design.",
+  "speaker_cta": "Inquire →",
+  
+  "service_1_title": "Exclusive Speaker Access",
+  "service_1_description": "Direct access to a curated roster of global leaders. We manage negotiations and logistics from start to finish.",
+  "service_2_title": "Content Alignment & Strategy",
+  "service_2_description": "Strategic consultation to match speakers with your audience and event objectives for maximum message resonance, ensuring cultural fit.",
+  "service_3_title": "On-Site Logistics Support",
+  "service_3_description": "Comprehensive support including technical riders, travel coordination, on-site liaison management, and post-event feedback cycles.",
+  
+  "form_name": "Your Name",
+  "form_email": "Your Email",
+  "form_event": "Event Type / Topic Focus (e.g., Q3 Strategy Session on AI)",
+  "form_details": "Tell us about your audience, event date, and budget range...",
+  "form_submit": "SUBMIT INQUIRY",
+  "form_generate": "✨ Generate Event Strategy",
+  "output_heading": "Generated Content Strategy:",
+  "output_theme": "Suggested Event Theme:",
+  "output_titles": "Proposed Session Titles:",
+  "output_questions": "Key Discussion Questions:",
+  "contact_response_time": "A consultant will be in touch within 24 hours.",
+  "footer_rights": "© 2025 Facettes. All rights reserved.",
+
+  "detail_back": "Back to Speaker Roster",
+  "detail_focus_areas": "Key Focus Areas",
+  "detail_biography": "Biography",
+  "detail_inquire_cta": "INQUIRE ABOUT THIS SPEAKER",
+
+  "speakers": {
+    "sarah_chen": {
+      "name": "Sarah Chen",
+      "title": "Futurologist & AI Ethicist",
+      "bio_long": "Sarah Chen is a leading voice in technology ethics and future forecasting. Her work focuses on creating responsible AI development models, ensuring that technological advancement is aligned with human values and social equity. She advises global tech firms and policymakers on the moral implications of large language models, quantum computing, and decentralized governance. She also speaks passionately about human potential in an AI-driven world.",
+      "focus": ["Ethical AI & Governance", "Future of Work & Creativity", "Decentralized Systems", "Quantum Computing"],
+      "image_url": "https://placehold.co/800x600/7877E6/FFFFFF?text=Sarah+Chen+-+AI+Ethicist"
+    },
+    "elias_vidal": {
+      "name": "Dr. Elias Vidal",
+      "title": "Organizational Psychologist",
+      "bio_long": "Dr. Elias Vidal specializes in transforming corporate cultures through psychological principles. His research explores the dynamics of team resilience, burnout prevention, and optimal leadership structures in high-stress environments. He provides keynote speeches on fostering psychological safety, driving innovation through diverse teams, and building robust mental frameworks for modern leaders. His clients include Fortune 500 companies and elite sports organizations.",
+      "focus": ["Psychological Safety", "Team Resilience", "Optimal Leadership", "Burnout Prevention"],
+      "image_url": "https://placehold.co/800x600/7877E6/FFFFFF?text=Dr.+Elias+Vidal+-+Psychologist"
+    },
+    "jaya_patel": {
+      "name": "Jaya Patel",
+      "title": "Sustainable Design Advocate",
+      "bio_long": "Jaya Patel is a celebrated advocate for sustainable development, focusing on how design thinking can revolutionize material usage and production cycles. Her work champions the concept of the circular economy, moving away from waste generation to regenerative systems. She speaks globally on green manufacturing processes, urban infrastructure planning, and the essential role of corporate social responsibility in the face of climate change.",
+      "focus": ["Circular Economy Models", "Green Manufacturing", "Urban Resilience", "Corporate Responsibility"],
+      "image_url": "https://placehold.co/800x600/7877E6/FFFFFF?text=Jaya+Patel+-+Sustainability"
+    }
+  }
+}
