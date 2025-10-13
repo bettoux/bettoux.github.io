@@ -1,666 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-key="title">Facettes | Global Speaker Bureau</title>
-    <!-- Load Tailwind CSS -->
+    <title data-lang-fr="Chauffage IMT - Services Techniques à Montréal" data-lang-en="IMT Heating - Technical Services in Montreal">Chauffage IMT - Services Techniques à Montréal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind with the new, bright color scheme (V5) -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bg-main': '#FFFFFF',      // White (Primary background for brightness)
-                        'bg-section': '#0A0A0A',   // Near Black (Contrast for forms/highlights)
-                        'text-dark': '#000000',    // Black text on light backgrounds
-                        'text-light': '#FFFFFF',   // White text on dark backgrounds
-                        'text-detail': '#555555',  // Subtle Grey for secondary text on light background
-                        'accent-purple': '#7877E6', // Primary Purple
-                        'accent-hover-purple': '#5C5BCC', // Slightly darker purple for hover
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        /* Custom scroll behavior for smooth navigation */
-        html {
-            scroll-behavior: smooth;
-        }
-        /* Style for the cinematic hero text */
-        .hero-title {
-            animation: fadeIn 2s ease-out;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        /* Spinner styles (adjusted for light background) */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.2); /* Darker border for visibility */
-            border-top: 4px solid #7877E6; /* Purple top */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Utility to hide sections for SPA routing */
-        .page-content {
-            display: none;
-        }
-        .page-content.active {
-            display: block;
+        body { font-family: 'Inter', sans-serif; }
+        /* Style for the Contact Form success message box */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 90%;
+            text-align: center;
         }
     </style>
 </head>
-<body class="bg-bg-main text-text-dark">
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-bg-main shadow-lg border-b border-text-detail/10">
+    <!-- Message Box Element -->
+    <div id="messageBox" class="hidden message-box bg-green-500 text-white">
+        <p id="messageText" class="font-bold"></p>
+        <button onclick="document.getElementById('messageBox').classList.add('hidden')" class="mt-4 px-4 py-2 bg-green-700 hover:bg-green-800 rounded-lg transition">OK</button>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo/Bureau Name -->
-            <a href="#" onclick="showSection('index')" class="text-3xl font-extrabold tracking-wider text-text-dark transition duration-300 hover:text-accent-purple">FACETTES</a>
-            
+            <!-- Logo/Business Name -->
+            <a href="#" class="text-3xl font-extrabold text-blue-600 tracking-tight" data-lang-fr="Chauffage IMT" data-lang-en="IMT Heating">Chauffage IMT</a>
+
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8 items-center">
-                <a href="#speakers" data-key="nav_speakers" class="text-text-dark hover:text-accent-purple transition duration-300 font-medium tracking-wide uppercase">Speakers</a>
-                <a href="#services" data-key="nav_services" class="text-text-dark hover:text-accent-purple transition duration-300 font-medium tracking-wide uppercase">Services</a>
-                <a href="#contact" data-key="nav_contact" class="px-5 py-2 text-sm font-semibold bg-accent-purple text-text-light rounded-full hover:bg-accent-hover-purple transition duration-300 tracking-wider">
-                    CONTACT
-                </a>
-                
-                <!-- Language Toggle -->
-                <button id="lang-toggle" class="px-3 py-1 text-sm font-semibold text-text-detail rounded-full hover:text-accent-purple transition duration-300 border border-text-detail/50">
-                    FR
-                </button>
+                <a href="#services" class="text-gray-600 hover:text-blue-600 font-medium transition" data-lang-fr="Nos Services" data-lang-en="Our Services">Nos Services</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium transition" data-lang-fr="Région Desservie" data-lang-en="Service Area">Région Desservie</a>
+                <a href="#contact" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg font-semibold" data-lang-fr="Contactez-nous" data-lang-en="Contact Us">Contactez-nous</a>
+                <button id="lang-toggle" class="text-sm font-semibold p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">EN</button>
             </nav>
 
             <!-- Mobile Menu Button -->
             <div class="flex items-center md:hidden">
-                <button id="mobile-menu-button" class="text-text-dark p-2 rounded-lg hover:bg-text-detail/20 transition duration-200 mr-2" aria-label="Toggle Menu">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 p-2 rounded-md">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
-                <!-- Language Toggle for Mobile -->
-                <button id="lang-toggle-mobile" class="px-3 py-1 text-sm font-semibold text-text-detail rounded-full hover:text-accent-purple transition duration-300 border border-text-detail/50">
-                    FR
-                </button>
+                <button id="lang-toggle-mobile" class="text-sm font-semibold p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition ml-4">EN</button>
             </div>
         </div>
-
-        <!-- Mobile Menu (Hidden by default) -->
-        <nav id="mobile-menu" class="hidden md:hidden bg-bg-main shadow-xl absolute w-full border-t border-text-detail transition-all duration-300 ease-in-out">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#speakers" data-key="nav_speakers_mobile" class="block px-3 py-2 rounded-md text-base font-medium text-text-dark hover:bg-text-detail/20" onclick="document.getElementById('mobile-menu').classList.add('hidden'); showSection('index')">Speakers</a>
-                <a href="#services" data-key="nav_services_mobile" class="block px-3 py-2 rounded-md text-base font-medium text-text-dark hover:bg-text-detail/20" onclick="document.getElementById('mobile-menu').classList.add('hidden'); showSection('index')">Services</a>
-                <a href="#contact" data-key="nav_contact_mobile" class="block px-3 py-2 rounded-md text-base font-medium text-text-dark hover:bg-text-detail/20" onclick="document.getElementById('mobile-menu').classList.add('hidden'); showSection('index')">Contact</a>
-            </div>
+        <!-- Mobile Navigation Menu -->
+        <nav id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+            <a href="#services" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 font-medium transition" data-lang-fr="Nos Services" data-lang-en="Our Services">Nos Services</a>
+            <a href="#about" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 font-medium transition" data-lang-fr="Région Desservie" data-lang-en="Service Area">Région Desservie</a>
+            <a href="#contact" class="block py-3 px-4 text-white bg-blue-600 hover:bg-blue-700 transition" data-lang-fr="Contactez-nous" data-lang-en="Contact Us">Contactez-nous</a>
         </nav>
     </header>
 
-    <main id="main-content">
-        <!-- Main Index View (Active by default) -->
-        <div id="index-view" class="page-content active">
-            <!-- 1. Hero Section -->
-            <section id="hero" class="h-[80vh] flex items-center justify-center overflow-hidden relative border-b border-text-detail/10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    
-                    <h1 data-key="hero_tagline" class="hero-title text-5xl sm:text-7xl lg:text-8xl font-black uppercase text-text-dark mb-6 tracking-tighter">
-                        Where Bold Ideas Meet <span class="text-accent-purple">Global Reach</span>
-                    </h1>
-                    
-                    <p data-key="hero_subheading" class="text-xl sm:text-2xl font-light text-text-detail max-w-4xl mx-auto mb-10">
-                        The agency for intersectional talent, shaping the future of culture, commerce, and impact.
-                    </p>
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-blue-600 text-white py-24 sm:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-5xl sm:text-6xl font-extrabold mb-4 leading-tight" 
+                    data-lang-fr="Chauffage IMT : Experts en CVC, Plomberie et Rénovation"
+                    data-lang-en="IMT Heating: Experts in HVAC, Plumbing & Renovation">
+                    Chauffage IMT : Experts en CVC, Plomberie et Rénovation
+                </h1>
+                <p class="text-xl sm:text-2xl font-light mb-8 opacity-90"
+                    data-lang-fr="Votre partenaire de confiance dans la Grande Région de Montréal pour un confort durable et des projets réussis."
+                    data-lang-en="Your trusted partner in the Greater Montreal Area for lasting comfort and successful projects.">
+                    Votre partenaire de confiance dans la Grande Région de Montréal pour un confort durable et des projets réussis.
+                </p>
+                <a href="#contact" class="inline-block px-10 py-4 bg-white text-blue-600 font-bold rounded-xl text-lg hover:bg-gray-100 transition shadow-xl transform hover:scale-105"
+                    data-lang-fr="Demandez une Soumission Gratuite"
+                    data-lang-en="Get a Free Estimate">
+                    Demandez une Soumission Gratuite
+                </a>
+            </div>
+        </section>
 
-                    <a href="#speakers" data-key="hero_cta" class="inline-block px-10 py-4 text-lg font-semibold bg-accent-purple text-text-light rounded-md shadow-xl hover:bg-accent-hover-purple transition duration-300 transform hover:scale-105 border-2 border-accent-purple uppercase tracking-wider">
-                        Explore Talent
-                    </a>
+        <!-- Services Section -->
+        <section id="services" class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900" 
+                        data-lang-fr="Nos Domaines d'Expertise" 
+                        data-lang-en="Our Areas of Expertise">Nos Domaines d'Expertise</h2>
+                    <p class="mt-4 text-xl text-gray-500"
+                        data-lang-fr="Des solutions complètes et intégrées pour tous vos besoins résidentiels et commerciaux."
+                        data-lang-en="Complete and integrated solutions for all your residential and commercial needs.">Des solutions complètes et intégrées pour tous vos besoins résidentiels et commerciaux.</p>
                 </div>
-            </section>
-
-            <!-- 2. Featured Speakers Section -->
-            <section id="speakers" class="py-24 border-b border-text-detail/10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 data-key="speakers_heading" class="text-3xl font-bold mb-2 text-center uppercase tracking-widest text-text-dark">Our Roster</h2>
-                    <p data-key="speakers_subtext" class="text-xl text-text-detail max-w-3xl mx-auto mb-12 text-center">Leaders across technology, innovation, and culture.</p>
-                    
-                    <div class="grid grid-cols-1 divide-y divide-text-detail/20">
-                        
-                        <!-- Speaker 1: Sarah Chen -->
-                        <div class="py-6 transition duration-300 hover:bg-accent-purple/5 flex flex-col sm:flex-row justify-between items-start sm:items-center group">
-                            <div class="flex items-center space-x-4 mb-3 sm:mb-0">
-                                <span class="text-4xl font-extrabold text-accent-purple/50 group-hover:text-accent-purple transition duration-300">01</span>
-                                <div>
-                                    <a href="#" onclick="navigateToSpeaker('sarah_chen')" class="text-2xl font-semibold text-text-dark hover:text-accent-purple transition duration-300 cursor-pointer">Sarah Chen</a>
-                                    <p class="text-base text-text-detail" data-key="speaker_1_title">Futurologist & AI Ethicist</p>
-                                </div>
-                            </div>
-                            <p class="text-text-detail italic max-w-lg mb-3 sm:mb-0" data-key="speaker_1_bio_short">Driving ethical AI frameworks and the intersection of human creativity.</p>
-                            <a href="#contact" class="text-sm font-semibold text-accent-purple hover:text-text-dark transition duration-300 uppercase tracking-wider" data-key="speaker_cta" onclick="showSection('index')">Inquire &rarr;</a>
-                        </div>
-
-                        <!-- Speaker 2: Dr. Elias Vidal -->
-                        <div class="py-6 transition duration-300 hover:bg-accent-purple/5 flex flex-col sm:flex-row justify-between items-start sm:items-center group">
-                            <div class="flex items-center space-x-4 mb-3 sm:mb-0">
-                                <span class="text-4xl font-extrabold text-accent-purple/50 group-hover:text-accent-purple transition duration-300">02</span>
-                                <div>
-                                    <a href="#" onclick="navigateToSpeaker('elias_vidal')" class="text-2xl font-semibold text-text-dark hover:text-accent-purple transition duration-300 cursor-pointer">Dr. Elias Vidal</a>
-                                    <p class="text-base text-text-detail" data-key="speaker_2_title">Organizational Psychologist</p>
-                                </div>
-                            </div>
-                            <p class="text-text-detail italic max-w-lg mb-3 sm:mb-0" data-key="speaker_2_bio_short">Optimizing leadership, team resilience, and high-performance culture.</p>
-                            <a href="#contact" class="text-sm font-semibold text-accent-purple hover:text-text-dark transition duration-300 uppercase tracking-wider" data-key="speaker_cta" onclick="showSection('index')">Inquire &rarr;</a>
-                        </div>
-
-                        <!-- Speaker 3: Jaya Patel -->
-                        <div class="py-6 transition duration-300 hover:bg-accent-purple/5 flex flex-col sm:flex-row justify-between items-start sm:items-center group">
-                            <div class="flex items-center space-x-4 mb-3 sm:mb-0">
-                                <span class="text-4xl font-extrabold text-accent-purple/50 group-hover:text-accent-purple transition duration-300">03</span>
-                                <div>
-                                    <a href="#" onclick="navigateToSpeaker('jaya_patel')" class="text-2xl font-semibold text-text-dark hover:text-accent-purple transition duration-300 cursor-pointer">Jaya Patel</a>
-                                    <p class="text-base text-text-detail" data-key="speaker_3_title">Sustainable Design Advocate</p>
-                                </div>
-                            </div>
-                            <p class="text-text-detail italic max-w-lg mb-3 sm:mb-0" data-key="speaker_3_bio_short">Pioneering circular economy models for global manufacturing and urban design.</p>
-                            <a href="#contact" class="text-sm font-semibold text-accent-purple hover:text-text-dark transition duration-300 uppercase tracking-wider" data-key="speaker_cta" onclick="showSection('index')">Inquire &rarr;</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- 3. Services Section -->
-            <section id="services" class="py-24 border-b border-text-detail/10">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 data-key="services_heading" class="text-3xl font-bold mb-2 text-center uppercase tracking-widest text-text-dark">Agency Expertise</h2>
-                    <p data-key="services_subtext" class="text-xl text-text-detail max-w-3xl mx-auto mb-12 text-center">Beyond booking, we ensure seamless execution and maximum impact.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        
-                        <!-- Service Card 1: Access -->
-                        <div class="p-8 rounded-lg border-2 border-text-detail/20 hover:border-accent-purple transition duration-300 flex flex-col justify-between h-full">
-                            <div class="text-5xl text-accent-purple mb-6">
-                                <!-- Icon: Calendar -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-check"><path d="M12 21h-7c-1.104 0-2-.896-2-2v-14c0-1.104.896-2 2-2h14c1.104 0 2 .896 2 2v8"/><polyline points="10 13 13 16 22 7"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-text-dark" data-key="service_1_title">Exclusive Speaker Access</h3>
-                                <p class="text-text-detail text-sm" data-key="service_1_description">Direct access to a curated roster of global leaders. We manage negotiations and logistics from start to finish.</p>
-                            </div>
-                        </div>
-
-                        <!-- Service Card 2: Strategy -->
-                        <div class="p-8 rounded-lg border-2 border-text-detail/20 hover:border-accent-purple transition duration-300 flex flex-col justify-between h-full">
-                            <div class="text-5xl text-accent-purple mb-6">
-                                <!-- Icon: Users -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-text-dark" data-key="service_2_title">Content Alignment & Strategy</h3>
-                                <p class="text-text-detail text-sm" data-key="service_2_description">Strategic consultation to match speakers with your audience and event objectives for maximum message resonance, ensuring cultural fit.</p>
-                            </div>
-                        </div>
-
-                        <!-- Service Card 3: Support -->
-                        <div class="p-8 rounded-lg border-2 border-text-detail/20 hover:border-accent-purple transition duration-300 flex flex-col justify-between h-full">
-                            <div class="text-5xl text-accent-purple mb-6">
-                                <!-- Icon: Microphone -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-text-dark" data-key="service_3_title">On-Site Logistics Support</h3>
-                                <p class="text-text-detail text-sm" data-key="service_3_description">Comprehensive support including technical riders, travel coordination, on-site liaison management, and post-event feedback cycles.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 4. Call to Action / Contact Section - Dark Background -->
-            <section id="contact" class="py-24 bg-bg-section border-t border-b border-accent-purple/50">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 md:grid md:grid-cols-3 md:gap-16 items-start">
-                    
-                    <!-- Left Text Block (White text on dark background) -->
-                    <div class="md:col-span-1 mb-10 md:mb-0 pt-4">
-                        <h2 data-key="contact_heading" class="text-4xl font-black text-text-light mb-4">CONNECT</h2>
-                        <p data-key="contact_tagline" class="text-xl text-text-detail">
-                            Initiate a conversation with our team to find the ideal voice for your next defining moment.
-                        </p>
-                    </div>
-                    
-                    <!-- Simple contact form placeholder and LLM FEATURE (Light form on dark background) -->
-                    <form id="contact-form" class="md:col-span-2 space-y-6 bg-bg-main p-8 rounded-xl shadow-2xl border border-accent-purple/50 text-text-dark">
-                        <input type="text" data-key="form_name" placeholder="Your Name" required
-                               class="w-full p-3 rounded-lg border border-text-detail/50 focus:ring-accent-purple focus:border-accent-purple bg-bg-main text-text-dark placeholder-text-detail">
-                        <input type="email" data-key="form_email" placeholder="Your Email" required
-                               class="w-full p-3 rounded-lg border border-text-detail/50 focus:ring-accent-purple focus:border-accent-purple bg-bg-main text-text-dark placeholder-text-detail">
-                        <input id="event-topic" type="text" data-key="form_event" placeholder="Event Type / Topic Focus (e.g., Q3 Strategy Session on AI)" required
-                               class="w-full p-3 rounded-lg border border-text-detail/50 focus:ring-accent-purple focus:border-accent-purple bg-bg-main text-text-dark placeholder-text-detail">
-                        <textarea id="event-details" data-key="form_details" placeholder="Tell us about your audience, event date, and budget range..." rows="4" required
-                                  class="w-full p-3 rounded-lg border border-text-detail/50 focus:ring-accent-purple focus:border-accent-purple bg-bg-main text-text-dark placeholder-text-detail"></textarea>
-                        
-                        <!-- New LLM Feature Button (Dark button on light form, which is on dark section) -->
-                        <button type="button" id="generate-ideas-btn" data-key="form_generate" class="w-full py-3 flex items-center justify-center space-x-2 bg-text-dark text-text-light font-semibold rounded-md hover:bg-text-detail/90 transition duration-300 transform hover:scale-[1.01] disabled:opacity-50" disabled>
-                            <span id="button-text">✨ Generate Event Strategy</span>
-                            <div id="loading-spinner" class="spinner border-text-dark/20 border-t-accent-purple hidden"></div>
-                        </button>
-
-                        <!-- LLM Output Area (Slightly gray background for definition) -->
-                        <div id="llm-output" class="hidden bg-gray-100 p-5 rounded-lg border-l-4 border-accent-purple text-text-dark mt-4 shadow-inner">
-                            <h4 data-key="output_heading" class="text-xl font-semibold mb-3 text-accent-purple">Generated Content Strategy:</h4>
-                            <div id="output-content" class="space-y-4 text-sm">
-                                <!-- Content will be injected here -->
-                            </div>
-                        </div>
-
-                        <button type="submit" data-key="form_submit" class="w-full py-3 bg-accent-purple text-text-light font-semibold rounded-md shadow-lg hover:bg-accent-hover-purple transition duration-300 transform hover:scale-[1.01] uppercase tracking-wider">
-                            SUBMIT INQUIRY
-                        </button>
-                        <p data-key="contact_response_time" class="text-sm text-text-detail mt-4 text-center">A consultant will be in touch within 24 hours.</p>
-                    </form>
-                </div>
-            </section>
-        </div>
-
-        <!-- Speaker Detail View (Hidden by default) -->
-        <section id="speaker-detail" class="page-content py-16 md:py-24">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 
-                <button onclick="showSection('index')" class="text-accent-purple hover:text-accent-hover-purple font-semibold mb-8 flex items-center transition duration-300">
-                    <!-- Icon: Arrow Left -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                    <span data-key="detail_back">Back to Speaker Roster</span>
-                </button>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service Card 1: Chauffage (Heating) -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="text-blue-600 mb-4 inline-block p-3 bg-blue-100 rounded-xl">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-4 2.5-4h3c2 0 2.5 4 2.5 4-2 1-2 3-2 3zm-2.121-2.121a5 5 0 00-7.072-7.072M12 21V3"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3" data-lang-fr="Systèmes de Chauffage & CVC" data-lang-en="Heating & HVAC Systems">Systèmes de Chauffage & CVC</h3>
+                        <p class="text-gray-600" data-lang-fr="Installation, entretien et réparation de fournaises, thermopompes et systèmes de ventilation pour un confort optimal toute l'année." data-lang-en="Installation, maintenance, and repair of furnaces, heat pumps, and ventilation systems for optimal comfort year-round.">Installation, entretien et réparation de fournaises, thermopompes et systèmes de ventilation pour un confort optimal toute l'année.</p>
+                    </div>
 
-                <div class="md:flex md:space-x-12">
-                    <!-- Left: Image and Key Info -->
-                    <div class="md:w-1/3 mb-8 md:mb-0">
-                        <img id="speaker-image" src="" alt="Speaker Photo" class="w-full h-auto object-cover rounded-lg shadow-xl mb-6">
-                        <div class="p-6 rounded-lg border border-text-detail/20 bg-gray-50">
-                            <h4 class="text-lg font-bold text-text-dark mb-4" data-key="detail_focus_areas">Key Focus Areas</h4>
-                            <ul id="speaker-focus-list" class="space-y-2 text-text-detail text-sm">
-                                <!-- Focus areas injected here -->
-                            </ul>
+                    <!-- Service Card 2: Plomberie (Plumbing) -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="text-blue-600 mb-4 inline-block p-3 bg-blue-100 rounded-xl">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM12 11V6M9 14h6"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3" data-lang-fr="Plomberie Complète" data-lang-en="Full Plumbing Services">Plomberie Complète</h3>
+                        <p class="text-gray-600" data-lang-fr="Du dégât d'eau à l'installation de nouveaux appareils, nous gérons tous vos projets de plomberie avec rapidité et professionnalisme." data-lang-en="From water damage to new fixture installation, we handle all your plumbing projects quickly and professionally.">Du dégât d'eau à l'installation de nouveaux appareils, nous gérons tous vos projets de plomberie avec rapidité et professionnalisme.</p>
+                    </div>
+
+                    <!-- Service Card 3: Rénovations (Renovations) -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
+                        <div class="text-blue-600 mb-4 inline-block p-3 bg-blue-100 rounded-xl">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3" data-lang-fr="Rénovations Générales" data-lang-en="General Renovations">Rénovations Générales</h3>
+                        <p class="text-gray-600" data-lang-fr="Nous concrétisons tous vos projets de rénovation (cuisine, salle de bain, sous-sol, etc.), en assurant une intégration experte des systèmes CVC et plomberie." data-lang-en="We bring all your renovation projects to life (kitchen, bathroom, basement, etc.), ensuring expert integration of HVAC and plumbing systems.">Nous concrétisons tous vos projets de rénovation (cuisine, salle de bain, sous-sol, etc.), en assurant une intégration experte des systèmes CVC et plomberie.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About/Coverage Section -->
+        <section id="about" class="py-16 sm:py-24 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6"
+                    data-lang-fr="Au Service de la Grande Région de Montréal"
+                    data-lang-en="Serving the Greater Montreal Area">Au Service de la Grande Région de Montréal</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8"
+                    data-lang-fr="Basés à Montréal, Chauffage IMT intervient rapidement sur l'île, sur la Rive-Sud, la Rive-Nord et les environs. Votre satisfaction est notre priorité locale."
+                    data-lang-en="Based in Montreal, IMT Heating quickly responds across the Island, the South Shore, the North Shore, and surrounding areas. Your satisfaction is our local priority.">Basés à Montréal, Chauffage IMT intervient rapidement sur l'île, sur la Rive-Sud, la Rive-Nord et les environs. Votre satisfaction est notre priorité locale.</p>
+                <div class="relative inline-block w-full max-w-md h-auto rounded-xl overflow-hidden shadow-2xl">
+                    <!-- Placeholder for a map or Montreal skyline image -->
+                    <img src="https://placehold.co/800x400/3B82F6/ffffff?text=Greater+Montreal+Map+Placeholder" alt="[Image d'une carte de la région de Montréal]" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-16 sm:py-24 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-gray-900" 
+                        data-lang-fr="Demandez votre Soumission" 
+                        data-lang-en="Request Your Estimate">Demandez votre Soumission</h2>
+                    <p class="mt-4 text-xl text-gray-500"
+                        data-lang-fr="Décrivez votre projet et notre équipe vous contactera rapidement pour une évaluation gratuite."
+                        data-lang-en="Describe your project, and our team will contact you shortly for a free evaluation.">Décrivez votre projet et notre équipe vous contactera rapidement pour une évaluation gratuite.</p>
+                </div>
+
+                <form id="contact-form" class="space-y-6 bg-gray-50 p-8 rounded-2xl shadow-xl border border-gray-100">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700" 
+                                data-lang-fr="Nom Complet" data-lang-en="Full Name">Nom Complet</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700" 
+                                data-lang-fr="Numéro de Téléphone" data-lang-en="Phone Number">Numéro de Téléphone</label>
+                            <input type="tel" id="phone" name="phone" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
                     </div>
 
-                    <!-- Right: Bio and Inquiry CTA -->
-                    <div class="md:w-2/3">
-                        <h1 id="speaker-name" class="text-5xl lg:text-6xl font-black mb-2 text-text-dark"></h1>
-                        <p id="speaker-title" class="text-2xl text-accent-purple font-medium mb-8"></p>
-                        
-                        <h3 class="text-2xl font-bold mb-4 text-text-dark" data-key="detail_biography">Biography</h3>
-                        <p id="speaker-bio-long" class="text-text-detail leading-relaxed mb-10"></p>
-
-                        <a href="#contact" data-key="detail_inquire_cta" class="inline-block px-8 py-3 text-lg font-semibold bg-accent-purple text-text-light rounded-md shadow-xl hover:bg-accent-hover-purple transition duration-300 transform hover:scale-105 border-2 border-accent-purple uppercase tracking-wider" onclick="showSection('index')">
-                            Inquire about this Speaker
-                        </a>
+                    <div>
+                        <label for="service" class="block text-sm font-medium text-gray-700" 
+                                data-lang-fr="Service Requis" data-lang-en="Service Required">Service Requis</label>
+                        <select id="service" name="service" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                            <option value="" disabled selected data-lang-fr="Sélectionner un service" data-lang-en="Select a service">Sélectionner un service</option>
+                            <option value="chauffage" data-lang-fr="Chauffage / CVC" data-lang-en="Heating / HVAC">Chauffage / CVC</option>
+                            <option value="plomberie" data-lang-fr="Plomberie" data-lang-en="Plumbing">Plomberie</option>
+                            <option value="renovation" data-lang-fr="Rénovation Générale" data-lang-en="General Renovation">Rénovation Générale</option>
+                            <option value="general" data-lang-fr="Information Générale" data-lang-en="General Inquiry">Information Générale</option>
+                        </select>
                     </div>
-                </div>
 
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700" 
+                                data-lang-fr="Description du Projet" data-lang-en="Project Description">Description du Projet</label>
+                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button type="submit" class="w-full md:w-auto px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg transform hover:scale-[1.01]">
+                            <span data-lang-fr="Envoyer la Demande" data-lang-en="Send Request">Envoyer la Demande</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer - Light Background -->
-    <footer class="bg-bg-main py-8 border-t border-text-detail/20 text-text-dark shadow-inner">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center flex-wrap text-center md:text-left">
-            <p data-key="footer_rights" class="text-text-detail text-sm w-full md:w-auto mb-4 md:mb-0">&copy; 2025 Facettes. All rights reserved.</p>
-            <div class="flex space-x-6">
-                <!-- Social Media Links (Placeholder) -->
-                <a href="#" class="text-text-detail hover:text-accent-purple transition duration-300 text-sm">LINKEDIN</a>
-                <a href="#" class="text-text-detail hover:text-accent-purple transition duration-300 text-sm">INSTAGRAM</a>
-                <a href="#" class="text-text-detail hover:text-accent-purple transition duration-300 text-sm">EMAIL</a>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-xl font-bold mb-4" data-lang-fr="Chauffage IMT - Votre Expert Local" data-lang-en="IMT Heating - Your Local Expert">Chauffage IMT - Votre Expert Local</p>
+            <p class="text-gray-400" data-lang-fr="Desservant fièrement la Grande Région de Montréal." data-lang-en="Proudly serving the Greater Montreal Area.">Desservant fièrement la Grande Région de Montréal.</p>
+            <div class="mt-6 border-t border-gray-700 pt-6">
+                <p class="text-sm text-gray-500">&copy; <span id="current-year"></span> Chauffage IMT. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu Toggle, Localization, and Gemini API -->
     <script>
-        let content = {};
-        let currentLang = 'en';
+        // --- JavaScript for Language Toggle and Form Submission ---
 
-        // Load content from JSON files
-        async function loadContent() {
-            try {
-                const enResponse = await fetch('./content/en.json');
-                const frResponse = await fetch('./content/fr.json');
+        const langToggleButtons = [
+            document.getElementById('lang-toggle'),
+            document.getElementById('lang-toggle-mobile')
+        ];
+        const htmlElement = document.documentElement;
+        const currentYearElement = document.getElementById('current-year');
+        currentYearElement.textContent = new Date().getFullYear();
+
+        // 1. Language Toggle Functionality
+        function updateContent(lang) {
+            htmlElement.lang = lang;
+            document.querySelectorAll('[data-lang-fr], [data-lang-en]').forEach(element => {
+                const frText = element.getAttribute('data-lang-fr');
+                const enText = element.getAttribute('data-lang-en');
                 
-                if (!enResponse.ok || !frResponse.ok) {
-                    throw new Error('Failed to load content files');
+                if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                    element.setAttribute('placeholder', lang === 'fr' ? frText : enText);
+                } else if (element.tagName === 'OPTION') {
+                    // Update only if it's not the default disabled option without data-lang attributes
+                    if (frText) {
+                         element.textContent = lang === 'fr' ? frText : enText;
+                    }
+                } else {
+                    // For all other elements (H1, P, A, BUTTON, LABEL, etc.)
+                    element.textContent = lang === 'fr' ? frText : enText;
                 }
-                
-                content.en = await enResponse.json();
-                content.fr = await frResponse.json();
-                
-                // Initialize the page after content is loaded
-                updateText();
-                checkInputs();
-            } catch (error) {
-                console.error('Error loading content:', error);
-                // Fallback: show error message to user
-                document.body.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: red;">
-                        <h2>Content Loading Error</h2>
-                        <p>Unable to load website content. Please check that content files are available.</p>
-                        <p>Error: ${error.message}</p>
-                    </div>
-                `;
-            }
-        }
 
-        // --- Core UI & Localization Logic ---
-        function updateText() {
-            // Ensure content is loaded before updating
-            if (!content || !content[currentLang]) {
-                console.error('Content not loaded yet');
-                return;
-            }
-            
-            const dictionary = content[currentLang];
-            document.querySelectorAll('[data-key]').forEach(element => {
-                const key = element.getAttribute('data-key');
-                const translation = dictionary[key];
-                
-                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    element.setAttribute('placeholder', translation);
-                } else if (key === 'title') {
-                    document.title = translation;
-                } else if (key.startsWith('speaker_cta')) {
-                    element.innerHTML = translation;
-                } else if (key === 'form_generate') {
-                    document.getElementById('button-text').innerText = translation;
-                }
-                else {
-                    element.innerText = translation;
-                }
-            });
-            
-            const toggleButton = document.getElementById('lang-toggle');
-            const toggleButtonMobile = document.getElementById('lang-toggle-mobile');
-            const newLang = currentLang === 'en' ? 'FR' : 'EN';
-            toggleButton.innerText = newLang;
-            toggleButtonMobile.innerText = newLang;
-            
-            // Re-render LLM output if visible to update language
-            const llmOutputDiv = document.getElementById('llm-output');
-            if (!llmOutputDiv.classList.contains('hidden') && llmOutputDiv.dataset.llmContent) {
-                 try {
-                    const data = JSON.parse(llmOutputDiv.dataset.llmContent);
-                    renderLlmOutput(data);
-                 } catch (e) {
-                     console.error("Failed to re-render LLM output on language change:", e);
-                 }
-            }
-        }
-
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'fr' : 'en';
-            updateText();
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
-
-        // --- Routing and Speaker Detail Logic ---
-
-        function showSection(viewId) {
-            document.querySelectorAll('.page-content').forEach(section => {
-                section.classList.remove('active');
+                // Update the button text (EN or FR)
+                langToggleButtons.forEach(btn => {
+                    btn.textContent = lang === 'fr' ? 'EN' : 'FR';
+                });
             });
 
-            if (viewId === 'index') {
-                document.getElementById('index-view').classList.add('active');
-                // Scroll to the top of the main content
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (viewId === 'speaker-detail') {
-                document.getElementById('speaker-detail').classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            
-            // Update URL hash for simple state management (optional, but good practice)
-            history.pushState(null, '', viewId === 'index' ? '#' : `#speaker/${window.speakerId}`);
+            // Update title
+            const titleElement = document.querySelector('title');
+            const titleFr = titleElement.getAttribute('data-lang-fr');
+            const titleEn = titleElement.getAttribute('data-lang-en');
+            titleElement.textContent = lang === 'fr' ? titleFr : titleEn;
 
-            // Ensure the footer's main color is correct when switching views
-            const footer = document.querySelector('footer');
-            if (viewId === 'index') {
-                // Footer is inside the main-view div, inheriting the body's light bg
-                footer.classList.remove('bg-bg-section', 'text-text-light');
-                footer.classList.add('bg-bg-main', 'text-text-dark');
-            } else {
-                // Detail view uses the main light background
-                footer.classList.remove('bg-bg-section', 'text-text-light');
-                footer.classList.add('bg-bg-main', 'text-text-dark');
+            // Update select option for "Select a service" (need to handle it specially)
+            const selectOption = document.querySelector('#service option[disabled]');
+            if (selectOption) {
+                selectOption.textContent = lang === 'fr' ? 'Sélectionner un service' : 'Select a service';
             }
         }
 
-        function navigateToSpeaker(speakerId) {
-            const speakerData = content[currentLang].speakers[speakerId];
-            if (!speakerData) {
-                console.error("Speaker data not found for ID:", speakerId);
-                return;
-            }
-
-            // Global variable to hold current speaker ID for re-rendering/inquire link
-            window.speakerId = speakerId; 
-
-            // Update the detail page elements
-            document.getElementById('speaker-name').innerText = speakerData.name;
-            document.getElementById('speaker-title').innerText = speakerData.title;
-            document.getElementById('speaker-bio-long').innerText = speakerData.bio_long;
-            
-            // Update image source (with fallback)
-            const img = document.getElementById('speaker-image');
-            img.src = speakerData.image_url;
-            img.alt = speakerData.name + " Photo";
-
-            // Update focus areas list
-            const focusList = document.getElementById('speaker-focus-list');
-            focusList.innerHTML = speakerData.focus.map(area => 
-                `<li class="flex items-start"><span class="text-accent-purple font-bold mr-2 text-xl">&bull;</span><span>${area}</span></li>`
-            ).join('');
-
-            // Switch to the speaker detail view
-            showSection('speaker-detail');
-        }
-
-        // --- Form Validation and LLM Button State ---
-        function checkInputs() {
-            const topic = document.getElementById('event-topic').value.trim();
-            const details = document.getElementById('event-details').value.trim();
-            const button = document.getElementById('generate-ideas-btn');
-
-            if (topic.length > 5 && details.length > 10) {
-                button.disabled = false;
-            } else {
-                button.disabled = true;
-            }
-        }
-
-        // --- Gemini API Logic ---
-
-        const API_MODEL = "gemini-2.5-flash-preview-05-20";
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=`;
-        const apiKey = ""; // API key will be provided by the canvas environment
-
-        const responseSchema = {
-            type: "OBJECT",
-            properties: {
-                theme_suggestion: { type: "STRING", description: "A catchy, compelling theme or title for the event." },
-                session_titles: {
-                    type: "ARRAY",
-                    description: "3-5 suggested session titles or key talking points for the speaker.",
-                    items: { type: "STRING" }
-                },
-                discussion_questions: {
-                    type: "ARRAY",
-                    description: "3-5 relevant, thought-provoking questions to spark discussion with the speaker.",
-                    items: { type: "STRING" }
-                }
-            },
-            propertyOrdering: ["theme_suggestion", "session_titles", "discussion_questions"]
-        };
-
-        /**
-         * Generic function to call the Gemini API with exponential backoff.
-         */
-        async function callGeminiApi(payload, maxRetries = 3, delay = 1000) {
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(API_URL + apiKey, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.status === 429 && i < maxRetries - 1) {
-                        // Rate limit error, wait and retry
-                        await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-                        continue;
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(`API call failed with status: ${response.status}`);
-                    }
-                    
-                    return await response.json();
-
-                } catch (error) {
-                    console.error("Fetch error or unexpected API response structure:", error);
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-                }
-            }
-        }
-
-        async function generateEventIdeas() {
-            const topic = document.getElementById('event-topic').value.trim();
-            const details = document.getElementById('event-details').value.trim();
-            const outputDiv = document.getElementById('llm-output');
-            const outputContent = document.getElementById('output-content');
-            const btn = document.getElementById('generate-ideas-btn');
-            const spinner = document.getElementById('loading-spinner');
-
-            if (!topic || !details) return;
-
-            // Show loading state
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-            document.getElementById('button-text').classList.add('hidden');
-            outputDiv.classList.add('hidden');
-            outputContent.innerHTML = '';
-            
-            const systemPrompt = `You are an expert Event Content Strategist for a global speaker bureau. Your goal is to analyze the user's event topic and details and provide creative, structured content ideas in the current language of the UI (${currentLang}). The output MUST be a JSON object conforming to the provided schema.`;
-            const userQuery = `Event Type/Topic Focus: ${topic}. Event Details: ${details}. Generate a high-impact event theme, 3-5 suggested session titles, and 3-5 key discussion questions for a speaker on this topic.`;
-
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                tools: [{ "google_search": {} }], // Use Google Search for up-to-date topic context
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: responseSchema
-                }
-            };
-
-            try {
-                const result = await callGeminiApi(payload);
-                
-                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!jsonText) throw new Error("Could not extract JSON content from API response.");
-
-                const data = JSON.parse(jsonText);
-                outputDiv.dataset.llmContent = jsonText; // Store content for language toggling
-                renderLlmOutput(data);
-                
-            } catch (error) {
-                console.error("Failed to generate event ideas:", error);
-                outputContent.innerHTML = `<p class="text-red-500">Error: Unable to generate content ideas. Please try again later or check your network connection.</p>`;
-                outputDiv.classList.remove('hidden');
-
-            } finally {
-                // Hide loading state and reset button
-                spinner.classList.add('hidden');
-                document.getElementById('button-text').classList.remove('hidden');
-                checkInputs(); // Re-enable if inputs are still valid
-            }
-        }
-
-        /**
-         * Renders the structured JSON output into the HTML.
-         */
-        function renderLlmOutput(data) {
-            const outputContent = document.getElementById('output-content');
-            const dictionary = content[currentLang];
-            let html = '';
-
-            // 1. Theme Suggestion
-            if (data.theme_suggestion) {
-                html += `
-                    <div>
-                        <p class="font-bold text-text-dark">${dictionary.output_theme}</p>
-                        <p class="text-accent-purple font-medium italic">${data.theme_suggestion}</p>
-                    </div>
-                `;
-            }
-
-            // 2. Session Titles
-            if (data.session_titles && data.session_titles.length > 0) {
-                html += `
-                    <div>
-                        <p class="font-bold text-text-dark">${dictionary.output_titles}</p>
-                        <ul class="list-disc list-inside ml-2 space-y-1 text-text-detail">
-                            ${data.session_titles.map(title => `<li>${title}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-            }
-
-            // 3. Discussion Questions
-            if (data.discussion_questions && data.discussion_questions.length > 0) {
-                html += `
-                    <div>
-                        <p class="font-bold text-text-dark">${dictionary.output_questions}</p>
-                        <ol class="list-decimal list-inside ml-2 space-y-1 text-text-detail">
-                            ${data.discussion_questions.map(q => `<li>${q}</li>`).join('')}
-                        </ol>
-                    </div>
-                `;
-            }
-            
-            outputContent.innerHTML = html;
-            document.getElementById('llm-output').classList.remove('hidden');
-        }
-
-        // --- Event Listeners and Initial Setup ---
-        window.onload = function() {
-            loadContent(); // Load content first, then update text
-        };
-
-        // UI Listeners
-        document.getElementById('mobile-menu-button').addEventListener('click', toggleMobileMenu);
-        document.getElementById('lang-toggle').addEventListener('click', toggleLang);
-        document.getElementById('lang-toggle-mobile').addEventListener('click', toggleLang);
-
-        // Input listeners for LLM button activation
-        document.getElementById('event-topic').addEventListener('input', checkInputs);
-        document.getElementById('event-details').addEventListener('input', checkInputs);
-
-        // LLM Feature Listener
-        document.getElementById('generate-ideas-btn').addEventListener('click', generateEventIdeas);
+        langToggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const currentLang = htmlElement.lang;
+                const newLang = currentLang === 'fr' ? 'en' : 'fr';
+                updateContent(newLang);
+            });
+        });
         
-    </script>
+        // Initial setup for the language (in case data attributes are missing on first load)
+        updateContent('fr');
 
+
+        // 2. Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+
+        // 3. Contact Form Submission (Front-end only)
+        const contactForm = document.getElementById('contact-form');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get current language for the success message
+            const lang = htmlElement.lang;
+            
+            // Collect form data (for simulation)
+            const formData = new FormData(contactForm);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+            
+            console.log('Formulaire soumis (simulation):', data);
+
+            // Display success message
+            messageText.textContent = lang === 'fr' 
+                ? 'Merci! Votre demande a été envoyée. Nous vous contacterons rapidement.' 
+                : 'Thank you! Your request has been sent. We will contact you shortly.';
+            
+            messageBox.classList.remove('hidden');
+            
+            // Reset the form
+            contactForm.reset();
+        });
+    </script>
 </body>
 </html>
