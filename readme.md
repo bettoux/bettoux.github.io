@@ -1,2 +1,0 @@
-# facettes
-Speaker Bureau website
