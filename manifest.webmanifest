@@ -1,0 +1,17 @@
+{
+  "name": "SAA-C03 Academy",
+  "short_name": "SAA Academy",
+  "description": "Learn AWS Solutions Architect Associate (SAA-C03) concepts — 4 domains, 18 interactive lessons. Works offline.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c1018",
+  "theme_color": "#0c1018",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

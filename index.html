@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1018">
+<title>SAA-C03 Academy</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SAA Academy">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+  html,body{margin:0;background:#0c1018;-webkit-text-size-adjust:100%}
+  body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+  #saa-academy{border-radius:0 !important;max-width:none !important;box-shadow:none !important;min-height:100vh}
+  @media(min-width:1120px){#saa-academy{border-radius:16px !important;max-width:1080px !important;margin:18px auto !important}}
+</style>
+</head>
+<body>
+<style>
+  #saa-academy{--bg:#0c1018;--panel:#141b29;--panel2:#1b2435;--ink:#e8edf5;--mut:#93a0b5;--line:#27324a;
+    --d1:#6c8cff;--d2:#39d3a3;--d3:#ffb347;--d4:#ff7ab6;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);
+    border-radius:16px;overflow:hidden;line-height:1.55;max-width:1080px;margin:0 auto;box-shadow:0 18px 60px rgba(0,0,0,.45)}
+  #saa-academy *{box-sizing:border-box}
+  .hero{padding:30px 28px 22px;background:radial-gradient(1200px 300px at 10% -20%,rgba(108,140,255,.30),transparent),
+    radial-gradient(900px 260px at 95% 0%,rgba(57,211,163,.20),transparent),linear-gradient(180deg,#10182a,#0c1018);
+    border-bottom:1px solid var(--line)}
+  .hero h1{margin:0 0 6px;font-size:27px;letter-spacing:.3px}
+  .hero p{margin:0;color:var(--mut);font-size:14px;max-width:660px}
+  .hero .badge{display:inline-block;margin-bottom:12px;font-size:11px;font-weight:700;letter-spacing:1.5px;
+    color:#9fd3ff;background:rgba(108,140,255,.14);border:1px solid rgba(108,140,255,.35);padding:4px 11px;border-radius:30px}
+  .hero .hint{margin-top:14px;font-size:12px;color:#8aa0c4;background:rgba(108,140,255,.08);border:1px dashed rgba(108,140,255,.3);
+    border-radius:9px;padding:8px 12px;display:inline-block}
+  .domtog{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
+  nav.tabs{display:flex;gap:4px;padding:14px 20px 0;flex-wrap:wrap;background:#0e1422}
+  .tab{flex:1;min-width:150px;cursor:pointer;border:1px solid var(--line);border-bottom:none;background:var(--panel);
+    border-radius:11px 11px 0 0;padding:12px 13px;transition:.18s;display:block;border-top:3px solid transparent}
+  .tab:hover{background:var(--panel2)}
+  .tab .ti{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .tab .tw{font-size:11px;color:var(--mut);margin-top:3px}
+  #dt0:checked~.tabs .t0,#dt1:checked~.tabs .t1,#dt2:checked~.tabs .t2,#dt3:checked~.tabs .t3{background:var(--panel2)}
+  #dt0:checked~.tabs .t0{border-top-color:var(--d1)} #dt1:checked~.tabs .t1{border-top-color:var(--d2)}
+  #dt2:checked~.tabs .t2{border-top-color:var(--d3)} #dt3:checked~.tabs .t3{border-top-color:var(--d4)}
+  .panels{padding:22px 24px 30px;background:var(--panel2);min-height:340px}
+  .panel{display:none}
+  #dt0:checked~.panels #p0,#dt1:checked~.panels #p1,#dt2:checked~.panels #p2,#dt3:checked~.panels #p3{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .dintro{display:flex;gap:14px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
+    border-radius:13px;padding:16px 18px;margin-bottom:18px}
+  .dintro .ic{font-size:30px;line-height:1}
+  .dintro h2{margin:0 0 5px;font-size:19px} .dintro p{margin:0;color:var(--mut);font-size:13.5px}
+  details.lesson{border:1px solid var(--line);border-radius:13px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+  details.lesson>summary{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;list-style:none}
+  details.lesson>summary::-webkit-details-marker{display:none}
+  details.lesson>summary:hover{background:var(--panel2)}
+  summary .lic{font-size:21px} summary .ltitle{font-weight:700;font-size:15px;flex:1}
+  summary .chev{color:var(--mut);transition:.25s;font-size:13px}
+  details.lesson[open]>summary .chev{transform:rotate(90deg)}
+  details.lesson[open]>summary{border-bottom:1px solid var(--line)}
+  .lbody{padding:4px 18px 18px}
+  .lbody p{font-size:13.7px;color:#d4dcec} .lbody h4{margin:16px 0 7px;font-size:13.5px;color:#fff}
+  .analogy{background:linear-gradient(135deg,rgba(255,179,71,.10),rgba(255,122,182,.07));border:1px solid rgba(255,179,71,.3);
+    border-radius:11px;padding:12px 14px;margin:14px 0;font-size:13.3px}
+  .analogy b{color:#ffd089}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 4px}
+  .chip{font-size:12px;background:#0e1626;border:1px solid var(--line);border-radius:30px;padding:5px 11px;color:#cdd7ea}
+  .chip b{color:#fff}
+  .takeaways{list-style:none;padding:0;margin:8px 0 0}
+  .takeaways li{position:relative;padding:5px 0 5px 24px;font-size:13.3px;color:#d4dcec}
+  .takeaways li:before{content:"✓";position:absolute;left:0;color:#39d3a3;font-weight:700}
+  table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:12.7px}
+  table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  table.cmp th{background:#0e1626;color:#fff} table.cmp td{color:#cfd8ea}
+  .check{background:#0e1626;border:1px solid var(--line);border-radius:11px;padding:14px;margin-top:16px}
+  .check .qlab{font-size:11px;letter-spacing:1px;color:#9fd3ff;font-weight:700;margin-bottom:6px}
+  .check .q{font-size:13.4px;font-weight:600;margin-bottom:10px}
+  .check ol{margin:0 0 4px;padding-left:20px} .check li{font-size:13px;color:#cfd8ea;margin:4px 0}
+  details.reveal{margin-top:10px}
+  details.reveal>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:#9fd3ff;list-style:none;
+    background:rgba(108,140,255,.12);border:1px solid rgba(108,140,255,.3);border-radius:8px;padding:7px 12px;display:inline-block}
+  details.reveal>summary::-webkit-details-marker{display:none}
+  details.reveal>summary:before{content:"👁 "}
+  details.reveal[open]>summary{margin-bottom:8px}
+  .ans{font-size:12.8px;color:#bcd;background:rgba(57,211,163,.08);border-left:3px solid #39d3a3;padding:9px 12px;border-radius:0 8px 8px 0}
+  .ans b{color:#7ef0c4}
+  footer{padding:14px 24px;background:#0e1422;border-top:1px solid var(--line);font-size:11.5px;color:var(--mut)}
+</style>
+
+<div id="saa-academy">
+  <div class="hero">
+    <span class="badge">AWS SOLUTIONS ARCHITECT ASSOCIATE · SAA-C03</span>
+    <h1>🎓 The SAA-C03 Academy</h1>
+    <p>Learn the <i>concepts</i> first — the way it should be taught. Four domains, plain-English explanations, real-world analogies, and the key services that actually show up on the exam. Drill questions later; understand the building blocks now.</p>
+    <div class="hint">💡 Click a <b>domain tab</b> to switch · click a <b>lesson</b> to expand it · click <b>👁 Show answer</b> under each question to check yourself.</div>
+  </div>
+
+  <input class="domtog" type="radio" name="saadom" id="dt0" checked>
+  <input class="domtog" type="radio" name="saadom" id="dt1">
+  <input class="domtog" type="radio" name="saadom" id="dt2">
+  <input class="domtog" type="radio" name="saadom" id="dt3">
+
+  <nav class="tabs">
+    <label class="tab t0" for="dt0"><span class="ti">🔐 D1 · Secure</span><span class="tw">30% of exam</span></label>
+    <label class="tab t1" for="dt1"><span class="ti">🛡️ D2 · Resilient</span><span class="tw">26% of exam</span></label>
+    <label class="tab t2" for="dt2"><span class="ti">⚡ D3 · High-Perf</span><span class="tw">24% of exam</span></label>
+    <label class="tab t3" for="dt3"><span class="ti">💰 D4 · Cost</span><span class="tw">20% of exam</span></label>
+  </nav>
+
+  <div class="panels">
+
+    <section class="panel" id="p0">
+      <div class="dintro"><div class="ic">🔐</div><div>
+        <h2>Domain 1: Secure Architectures <span style="color:var(--mut);font-size:13px">· 30%</span></h2>
+        <p>Security is the biggest slice of the exam. AWS uses a <b>shared responsibility model</b>: AWS secures the cloud (hardware, facilities); you secure what's <i>in</i> it (data, access, config). Master identity, network boundaries, and encryption and you own this domain.</p>
+      </div></div>
+
+      <details class="lesson"><summary><span class="lic">👤</span><span class="ltitle">IAM — Identity & Access Management</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>IAM is the front door to everything in AWS. For every API call it answers: <b>"Is this principal allowed to do this action on this resource?"</b></p>
+          <h4>The four building blocks</h4>
+          <div class="chips">
+            <span class="chip"><b>Users</b> — a person or app, long-term credentials</span>
+            <span class="chip"><b>Groups</b> — a bucket of users sharing permissions</span>
+            <span class="chip"><b>Roles</b> — temporary identity anything can <i>assume</i></span>
+            <span class="chip"><b>Policies</b> — JSON documents that grant/deny</span>
+          </div>
+          <p>Permissions come from <b>policies</b> — JSON with Effect (Allow/Deny), Action, Resource, Conditions. An explicit <b>Deny always wins</b> over any Allow.</p>
+          <h4>Roles are the star of the exam</h4>
+          <p>A <b>role</b> has no password — it's a set of permissions an EC2 instance, Lambda, or another account can temporarily "wear." This is how you give EC2 access to S3 <i>without</i> storing keys on it.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> a <b>role</b> is a <b>uniform on a hook</b> at work. Nobody owns it — anyone authorized puts it on, gains that job's permissions for a shift, then hangs it back. No permanent keys to leak.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Grant least privilege — start with nothing, add only what's needed.</li>
+            <li>Use ROLES for EC2/Lambda/services — never hard-code access keys.</li>
+            <li>Explicit Deny beats any Allow; no permission = implicit deny.</li>
+            <li>Use groups to manage permissions at scale, not per-user policies.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">An EC2 app needs to read from an S3 bucket. Most secure way to grant access?</div>
+            <ol type="A"><li>Store IAM access keys in the app's config file</li><li>Attach an IAM role to the EC2 instance</li><li>Make the S3 bucket public</li><li>Embed keys in an environment variable</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Attach an IAM role.</b> An instance role provides temporary, auto-rotated credentials via the metadata service — no long-term keys to store, leak, or rotate manually.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🪪</span><span class="ltitle">Federation, STS & Cross-Account Access</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Most companies already have identities (corporate directory, Google). <b>Federation</b> lets those users access AWS <i>without</i> separate IAM users for each.</p>
+          <h4>The key players</h4>
+          <div class="chips">
+            <span class="chip"><b>STS</b> — issues short-lived temporary credentials</span>
+            <span class="chip"><b>AssumeRole</b> — the API to "wear" a role</span>
+            <span class="chip"><b>IAM Identity Center</b> — SSO for workforce → many accounts</span>
+            <span class="chip"><b>Cognito</b> — identity for your app's <i>end users</i> (web/mobile)</span>
+          </div>
+          <h4>Cross-account access</h4>
+          <p>To let Account B use resources in Account A: create a <b>role in A</b> that <i>trusts</i> B, then principals in B call <code>AssumeRole</code>. No shared keys, fully auditable, easily revoked.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> federation is a <b>visitor badge</b>. No permanent employee ID — reception verifies you against an external system, prints a badge that expires at end of day. STS is the badge printer.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Workforce SSO across many accounts → IAM Identity Center.</li>
+            <li>App end-users with Google/Facebook login → Cognito.</li>
+            <li>Cross-account = role in target account with a trust policy + AssumeRole.</li>
+            <li>STS credentials are temporary — they auto-expire, reducing blast radius.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A mobile app needs millions of end users to sign in with Google and get temporary AWS access to upload to S3. Which service?</div>
+            <ol type="A"><li>Amazon Cognito</li><li>IAM users for each person</li><li>IAM Identity Center</li><li>AWS Directory Service</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>A — Amazon Cognito.</b> Purpose-built for customer-facing app identity at scale, supports social/identity-provider login, and brokers temporary AWS credentials. IAM users don't scale to millions of customers.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🧱</span><span class="ltitle">Network Security — Security Groups vs NACLs</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Inside a VPC, two firewalls control traffic — and the exam <i>loves</i> the distinction.</p>
+          <table class="cmp"><tr><th>Aspect</th><th>Security Group</th><th>Network ACL</th></tr>
+          <tr><td>Operates at</td><td>Instance / ENI level</td><td>Subnet level</td></tr>
+          <tr><td>State</td><td><b>Stateful</b> — return traffic auto-allowed</td><td><b>Stateless</b> — allow both directions</td></tr>
+          <tr><td>Rules</td><td>Allow only</td><td>Allow <b>and</b> Deny</td></tr>
+          <tr><td>Evaluation</td><td>All rules evaluated</td><td>Number order, first match wins</td></tr>
+          <tr><td>Use it to…</td><td>Permit app traffic to instances</td><td>Block a bad IP across a subnet</td></tr></table>
+          <p>Because NACLs can <b>explicitly deny</b>, they're your tool for blocking a malicious IP range. Security Groups only allow, so they can't "block" anything specifically.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> a <b>Security Group</b> is the <b>bouncer at the club door</b> — checks each guest and remembers you (stateful). A <b>NACL</b> is the <b>guard at the neighborhood gate</b> — checks everyone, keeps a denylist, no memory of who passed (stateless).</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>SG = stateful, instance-level, allow-only.</li>
+            <li>NACL = stateless, subnet-level, allow + DENY.</li>
+            <li>Need to block a specific IP? → NACL (it can deny).</li>
+            <li>SGs can reference other SGs — great for tier-to-tier rules.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">You must block a single known-malicious IP from reaching any instance in a subnet. What do you use?</div>
+            <ol type="A"><li>A Security Group inbound deny rule</li><li>A Network ACL deny rule</li><li>An IAM policy</li><li>A route table entry</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Network ACL deny rule.</b> Only NACLs support explicit DENY and operate at the subnet level. Security Groups are allow-only, so they can't block a specific IP.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🔑</span><span class="ltitle">Data Protection — KMS, Encryption & Secrets</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Protect data <b>at rest</b> (stored) and <b>in transit</b> (over the network).</p>
+          <h4>Encryption at rest → KMS</h4>
+          <p><b>AWS KMS</b> manages keys. Most services (S3, EBS, RDS) integrate natively — you just pick a key. Keys never leave KMS; services ask KMS to encrypt/decrypt.</p>
+          <div class="chips">
+            <span class="chip"><b>SSE-S3</b> — AWS manages keys, simplest</span>
+            <span class="chip"><b>SSE-KMS</b> — you control key + get audit trail</span>
+            <span class="chip"><b>ACM</b> — free TLS certs for in-transit (HTTPS)</span>
+            <span class="chip"><b>CloudHSM</b> — dedicated hardware, single-tenant</span>
+          </div>
+          <h4>Secrets, not hard-coding</h4>
+          <p><b>Secrets Manager</b> stores DB passwords/API keys and can <b>auto-rotate</b> them. <b>Parameter Store</b> (SSM) is a cheaper option for config + secrets without auto-rotation.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> KMS is a <b>bank vault that never lets keys leave the building</b>. You hand your locked box to a teller (S3/EBS); the vault — not you — does the locking, and you get a log of every open.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>At rest → KMS-integrated encryption (SSE-KMS for control + audit).</li>
+            <li>In transit → TLS/HTTPS, certs from ACM (free, auto-renewing).</li>
+            <li>DB credentials with automatic rotation → Secrets Manager.</li>
+            <li>Single-tenant dedicated hardware / compliance → CloudHSM.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">Store an RDS database password and rotate it automatically every 30 days. Which service?</div>
+            <ol type="A"><li>SSM Parameter Store (standard)</li><li>AWS Secrets Manager</li><li>An encrypted S3 object</li><li>KMS key policy</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Secrets Manager.</b> Natively supports automatic credential rotation (with built-in RDS integration). Parameter Store stores secrets but doesn't auto-rotate without custom work.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🛰️</span><span class="ltitle">Detection, Monitoring & Edge Protection</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Security isn't just walls — you need to <b>see</b> what's happening and stop attacks at the edge.</p>
+          <h4>Know who did what</h4>
+          <div class="chips">
+            <span class="chip"><b>CloudTrail</b> — records every API call (who/when)</span>
+            <span class="chip"><b>Config</b> — tracks resource config + compliance over time</span>
+            <span class="chip"><b>CloudWatch</b> — metrics, logs, alarms</span>
+          </div>
+          <h4>Threat detection trio</h4>
+          <div class="chips">
+            <span class="chip"><b>GuardDuty</b> — intelligent threat detection from logs</span>
+            <span class="chip"><b>Macie</b> — finds sensitive data (PII) in S3</span>
+            <span class="chip"><b>Inspector</b> — scans workloads for vulnerabilities</span>
+            <span class="chip"><b>Security Hub</b> — aggregates all findings</span>
+          </div>
+          <h4>Edge protection</h4>
+          <p><b>WAF</b> filters web requests (SQL injection, bad bots) on ALB/CloudFront/API Gateway. <b>Shield</b> handles DDoS — Standard is free/automatic, Advanced adds cost protection + a response team.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>CloudTrail</b> is the building's <b>CCTV on every door</b>. <b>GuardDuty</b> is the <b>analyst</b> who flags "someone's trying every door at 3am." <b>WAF + Shield</b> are the <b>guards at the gate</b> turning away troublemakers.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Audit trail of API activity → CloudTrail.</li>
+            <li>Detect sensitive data (PII) in S3 → Macie.</li>
+            <li>Intelligent threat detection from logs → GuardDuty.</li>
+            <li>Filter malicious web requests (SQLi/XSS) → WAF; DDoS → Shield.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">Auditors ask: "who deleted that S3 bucket and when?" Which service answers this?</div>
+            <ol type="A"><li>Amazon GuardDuty</li><li>AWS CloudTrail</li><li>Amazon Macie</li><li>AWS Config</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — CloudTrail.</b> Logs every API call with identity, timestamp, and source IP — the definitive "who did what, when." GuardDuty detects threats; Macie finds sensitive data; Config tracks configuration state.</div></details>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel" id="p1">
+      <div class="dintro"><div class="ic">🛡️</div><div>
+        <h2>Domain 2: Resilient Architectures <span style="color:var(--mut);font-size:13px">· 26%</span></h2>
+        <p>Resilience = the system keeps working (or recovers fast) when things break — and things <i>will</i> break. Spread across <b>multiple Availability Zones</b>, <b>decouple</b> components so one failure doesn't cascade, and have a <b>disaster recovery</b> plan sized to your downtime tolerance.</p>
+      </div></div>
+
+      <details class="lesson"><summary><span class="lic">🏢</span><span class="ltitle">High Availability & Multi-AZ</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>A <b>Region</b> (e.g. us-east-1) contains multiple <b>Availability Zones</b> — physically separate data centers with independent power/network. Golden rule: <b>spread across AZs</b> so losing one doesn't take you down.</p>
+          <h4>The HA toolkit</h4>
+          <div class="chips">
+            <span class="chip"><b>ELB</b> — spreads traffic across healthy targets in many AZs</span>
+            <span class="chip"><b>Auto Scaling Group</b> — replaces failed instances, scales with demand</span>
+            <span class="chip"><b>RDS Multi-AZ</b> — synchronous standby in another AZ, auto-failover</span>
+          </div>
+          <p><b>ELB + ASG</b> is the classic HA web tier: the load balancer health-checks instances and stops routing to unhealthy ones; the ASG launches replacements across AZs.</p>
+          <h4>Multi-AZ ≠ Read Replica</h4>
+          <p>Multi-AZ = <b>availability</b> (a standby that takes over on failure — you don't read from it). Read Replicas = <b>scaling reads</b>. The exam tests this difference constantly.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> Multi-AZ is a <b>backup generator wired to auto-start</b> the instant power flickers — silent until needed. A read replica is <b>extra cashiers</b> for a busy checkout — about load, not surviving an outage.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Always deploy across ≥2 Availability Zones for HA.</li>
+            <li>ELB + Auto Scaling Group = self-healing, elastic web tier.</li>
+            <li>RDS Multi-AZ = availability/failover (synchronous standby).</li>
+            <li>RDS Read Replica = scale reads (asynchronous, can be cross-region).</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A relational DB must survive an AZ outage with automatic failover and no data loss. What do you enable?</div>
+            <ol type="A"><li>A read replica in the same AZ</li><li>RDS Multi-AZ deployment</li><li>A larger instance type</li><li>Daily snapshots only</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — RDS Multi-AZ.</b> Maintains a synchronous standby in a second AZ and fails over automatically. Read replicas are asynchronous and meant for scaling reads, not failover.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🔗</span><span class="ltitle">Decoupling — SQS, SNS & EventBridge</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Tightly-coupled systems fail together. <b>Decoupling</b> puts a buffer between components so a slow or failed consumer doesn't break the producer.</p>
+          <table class="cmp"><tr><th>Service</th><th>Pattern</th><th>Use when…</th></tr>
+          <tr><td><b>SQS</b></td><td>Queue (producer → consumer pool, pull)</td><td>Buffer work, absorb spikes, async</td></tr>
+          <tr><td><b>SNS</b></td><td>Pub/Sub (1 message → many subscribers, push)</td><td>Fan-out one event to many systems</td></tr>
+          <tr><td><b>EventBridge</b></td><td>Event bus with filtering rules</td><td>Route by content, SaaS/AWS integrations</td></tr></table>
+          <h4>The fan-out pattern</h4>
+          <p>Combine them: publish one message to an <b>SNS topic</b> that fans out to <b>multiple SQS queues</b> — each downstream system gets its own durable copy to process at its own pace.</p>
+          <p><b>SQS FIFO</b> guarantees ordering + exactly-once; standard SQS is best-effort ordering, at-least-once, higher throughput.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>SQS</b> is a <b>restaurant ticket rail</b> — orders queue, cooks grab them when ready; a slammed kitchen doesn't stop ordering. <b>SNS</b> is a <b>PA announcement</b> — say it once, everyone subscribed hears it.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Buffer/absorb load between tiers → SQS (pull-based queue).</li>
+            <li>Send one event to many subscribers → SNS (push pub/sub).</li>
+            <li>Fan-out durably → SNS topic → multiple SQS queues.</li>
+            <li>Strict ordering + no duplicates → SQS FIFO.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">One "order placed" event must trigger billing, inventory AND email — each independent and durable. Best design?</div>
+            <ol type="A"><li>A single SQS queue read by all three</li><li>SNS topic fanning out to three SQS queues</li><li>Direct synchronous API calls to all three</li><li>EventBridge scheduled rule</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — SNS fan-out to three SQS queues.</b> Each system gets its own durable copy to process at its own pace — resilient and decoupled. A single shared queue would let only one consumer grab each message.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🌐</span><span class="ltitle">Disaster Recovery Strategies</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>DR is about two numbers: <b>RTO</b> (how fast you must recover) and <b>RPO</b> (how much data loss you can tolerate). Four strategies trade cost vs speed:</p>
+          <table class="cmp"><tr><th>Strategy</th><th>Recovery</th><th>Cost</th><th>How</th></tr>
+          <tr><td><b>Backup &amp; Restore</b></td><td>Hours</td><td>$</td><td>Restore from backups when disaster hits</td></tr>
+          <tr><td><b>Pilot Light</b></td><td>10s of min</td><td>$$</td><td>Core (DB) always on; scale up rest on demand</td></tr>
+          <tr><td><b>Warm Standby</b></td><td>Minutes</td><td>$$$</td><td>Scaled-down full copy running; scale up</td></tr>
+          <tr><td><b>Multi-Site Active/Active</b></td><td>~0</td><td>$$$$</td><td>Full prod in 2+ regions serving live traffic</td></tr></table>
+          <p>The cheaper the strategy, the longer the recovery. Pick based on what downtime/data loss the business can accept.</p>
+          <div class="analogy">🪄 <b>Picture it — spare tire options:</b> <b>Backup &amp; Restore</b> = call a tow truck. <b>Pilot Light</b> = donut spare in the trunk. <b>Warm Standby</b> = full spare mounted and inflated. <b>Multi-Site</b> = a second identical car beside you — instant, but you pay for two.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>RTO = recovery time tolerance; RPO = data-loss tolerance.</li>
+            <li>Lowest cost, highest downtime → Backup &amp; Restore.</li>
+            <li>Near-zero downtime, highest cost → Multi-Site active/active.</li>
+            <li>Pilot Light keeps only the critical core (e.g. DB) warm.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A business tolerates ~10 min downtime and minimizes cost by keeping only the database replicated and running. Which DR strategy?</div>
+            <ol type="A"><li>Backup &amp; Restore</li><li>Pilot Light</li><li>Multi-Site Active/Active</li><li>Warm Standby</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Pilot Light.</b> Keeps the critical core (the database) live and replicated while the rest stays off until needed — a low RTO at lower cost than warm standby or multi-site.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">💾</span><span class="ltitle">Durability, Backups & Route 53 Failover</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p><b>Availability</b> = is it up right now? <b>Durability</b> = will the data still exist later? Don't confuse them.</p>
+          <h4>Durable storage</h4>
+          <p><b>S3</b> gives 11 nines (99.999999999%) durability, auto-replicating across AZs. For DR, enable <b>S3 Cross-Region Replication</b>. <b>RDS automated snapshots</b> can be copied cross-region too.</p>
+          <h4>DNS-level failover with Route 53</h4>
+          <p>Route 53 does more than DNS — its <b>health checks + routing policies</b> enable failover:</p>
+          <div class="chips">
+            <span class="chip"><b>Failover</b> — primary → secondary if primary unhealthy</span>
+            <span class="chip"><b>Latency</b> — send users to the lowest-latency region</span>
+            <span class="chip"><b>Weighted</b> — split traffic % (canary/blue-green)</span>
+            <span class="chip"><b>Geolocation</b> — route by user location</span>
+          </div>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>durability</b> is keeping <b>11 photocopies in 11 fireproof safes</b> — a few burn, the document survives. <b>Route 53 failover</b> is a <b>receptionist who auto-forwards callers to the backup office</b> when the main line rings out.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>S3 = 11 nines durability, auto-replicated across AZs.</li>
+            <li>Cross-region DR → S3 Cross-Region Replication / copy snapshots.</li>
+            <li>Route 53 Failover routing + health checks = automatic regional failover.</li>
+            <li>Availability ≠ durability — know which the question asks about.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">Users should be auto-redirected to a standby region if the primary endpoint fails its health check. Which Route 53 routing policy?</div>
+            <ol type="A"><li>Weighted routing</li><li>Failover routing</li><li>Simple routing</li><li>Multivalue answer</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Failover routing.</b> Pairs a primary and secondary record with health checks, sending traffic to the secondary when the primary is unhealthy.</div></details>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel" id="p2">
+      <div class="dintro"><div class="ic">⚡</div><div>
+        <h2>Domain 3: High-Performing Architectures <span style="color:var(--mut);font-size:13px">· 24%</span></h2>
+        <p>Pick the <b>right tool for the workload</b> so it's fast and scalable. Match compute, storage, database, and delivery to the actual access pattern. When in doubt, prefer <b>managed + elastic</b> options that scale automatically.</p>
+      </div></div>
+
+      <details class="lesson"><summary><span class="lic">🖥️</span><span class="ltitle">Compute — EC2, Lambda & Containers</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Pick compute by how much control vs. how little ops you want:</p>
+          <div class="chips">
+            <span class="chip"><b>EC2</b> — full VMs, max control, you manage scaling</span>
+            <span class="chip"><b>Lambda</b> — serverless functions, event-driven, scale to zero</span>
+            <span class="chip"><b>ECS/EKS</b> — containers; Fargate = serverless containers</span>
+          </div>
+          <h4>EC2 families (letters mean something)</h4>
+          <p><b>T</b>=burstable/general, <b>M</b>=balanced, <b>C</b>=compute-optimized (CPU-heavy), <b>R</b>=memory-optimized (in-memory/cache), <b>I</b>=storage I/O, <b>P/G</b>=GPU. Match the bottleneck: CPU-bound batch → C; in-memory DB → R.</p>
+          <h4>Scaling automatically</h4>
+          <p><b>Auto Scaling</b> adds/removes EC2 by metrics. <b>Lambda</b> scales per-request with zero idle cost. For unpredictable spikes with no servers to manage, serverless wins.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>EC2</b> is <b>owning a kitchen</b> — total control, but you staff and maintain it. <b>Lambda</b> is a <b>food truck that appears only when a customer orders, then vanishes</b> — pay per meal, ten trucks appear instantly if ten people order.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Spiky/event-driven, no servers to manage → Lambda.</li>
+            <li>CPU-heavy → C-family; memory-heavy → R-family.</li>
+            <li>Containers without managing servers → ECS/EKS on Fargate.</li>
+            <li>Steady, full-control workloads → EC2 + Auto Scaling.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">An image task runs sporadically, a few seconds per image, with unpredictable bursts. Most cost/perf-efficient compute?</div>
+            <ol type="A"><li>A large always-on EC2 instance</li><li>AWS Lambda</li><li>A reserved EC2 fleet</li><li>EC2 with a fixed Auto Scaling size</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — AWS Lambda.</b> Scales instantly per request, runs only during the seconds of work, and costs nothing when idle — ideal for short, sporadic, bursty tasks.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🗄️</span><span class="ltitle">Storage Performance — EBS, EFS, FSx, S3</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Choose storage by how it's accessed:</p>
+          <table class="cmp"><tr><th>Type</th><th>What</th><th>Use when…</th></tr>
+          <tr><td><b>EBS</b></td><td>Block storage, one instance</td><td>Boot volumes, databases — single-instance disk</td></tr>
+          <tr><td><b>EFS</b></td><td>Shared NFS file system, multi-AZ, Linux</td><td>Many Linux instances need the same files</td></tr>
+          <tr><td><b>FSx</b></td><td>Managed Windows (SMB) / Lustre (HPC)</td><td>Windows shares; high-perf compute</td></tr>
+          <tr><td><b>S3</b></td><td>Object storage, internet-scale</td><td>Files, backups, static assets, data lakes</td></tr>
+          <tr><td><b>Instance Store</b></td><td>Physically attached, ephemeral</td><td>Temp scratch/cache (lost on stop)</td></tr></table>
+          <p>Key trap: a file system <b>shared by many Linux instances across AZs</b>? That's <b>EFS</b> — not S3 (object storage, not mountable) and not EBS (attaches to one instance).</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>EBS</b> = the <b>internal drive in one laptop</b>. <b>EFS</b> = a <b>shared network drive the whole office mounts</b>. <b>S3</b> = a <b>warehouse you fetch boxes from by label</b>. <b>Instance store</b> = a <b>scratchpad wiped at power-off</b>.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Shared file system, many Linux instances, multi-AZ → EFS.</li>
+            <li>Single-instance block volume (DB, boot) → EBS.</li>
+            <li>Windows file share → FSx for Windows; HPC → FSx for Lustre.</li>
+            <li>Objects/backups/static content at scale → S3.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A fleet of Linux web servers across AZs must read/write the same files concurrently. Which storage?</div>
+            <ol type="A"><li>Amazon S3</li><li>Amazon EBS volume</li><li>Amazon EFS</li><li>EC2 Instance Store</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>C — Amazon EFS.</b> A managed, multi-AZ shared NFS file system many Linux instances can mount at once. EBS attaches to a single instance; S3 isn't a mountable POSIX file system.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🛢️</span><span class="ltitle">Databases & Caching</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Match the data model to the database:</p>
+          <div class="chips">
+            <span class="chip"><b>RDS</b> — managed relational (MySQL/Postgres…)</span>
+            <span class="chip"><b>Aurora</b> — AWS high-perf relational, 5x MySQL</span>
+            <span class="chip"><b>DynamoDB</b> — serverless NoSQL, single-digit ms at scale</span>
+            <span class="chip"><b>ElastiCache</b> — in-memory cache (Redis/Memcached)</span>
+          </div>
+          <h4>Scaling reads</h4>
+          <p>DB read-heavy and slow? Add <b>Read Replicas</b> (offload reads) or put <b>ElastiCache</b> in front (serve hot data from memory in microseconds, cutting DB load).</p>
+          <h4>When to pick DynamoDB</h4>
+          <p>Massive scale, simple key-based access, unpredictable traffic, single-digit-ms latency, zero server management → DynamoDB. Auto-scales, serverless.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>ElastiCache</b> keeps your <b>most-used items on the desk</b> instead of walking to the filing cabinet (the DB) each time. A <b>read replica</b> is <b>photocopying popular files</b> so many people read at once without crowding the original.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Repeated reads of hot data → ElastiCache (in-memory).</li>
+            <li>Offload read traffic from primary → Read Replicas.</li>
+            <li>Internet-scale NoSQL, ms latency, serverless → DynamoDB.</li>
+            <li>High-performance managed relational → Aurora.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A relational DB is overwhelmed by repeated identical reads of the same popular data. Lowest-latency fix?</div>
+            <ol type="A"><li>Add an ElastiCache caching layer</li><li>Switch to a bigger instance monthly</li><li>Move to S3</li><li>Add more Security Groups</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>A — ElastiCache.</b> Serves frequently-requested data from memory in microseconds, slashing repeated DB load. (Read replicas help too, but caching gives the lowest latency for repeated identical reads.)</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🚀</span><span class="ltitle">Content Delivery & Global Acceleration</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Get content close to users to cut latency:</p>
+          <div class="chips">
+            <span class="chip"><b>CloudFront</b> — CDN, caches content at edge locations</span>
+            <span class="chip"><b>Global Accelerator</b> — routes over AWS backbone via anycast IPs</span>
+            <span class="chip"><b>Placement Groups</b> — control EC2 placement for network perf</span>
+          </div>
+          <h4>CloudFront vs Global Accelerator</h4>
+          <p><b>CloudFront</b> = caches HTTP/S content (images, video, web) at edges. <b>Global Accelerator</b> = improves <b>non-HTTP</b> / TCP/UDP apps (gaming, IoT, APIs), gives static anycast IPs — it doesn't cache, it optimizes the network path.</p>
+          <h4>Placement groups</h4>
+          <p><b>Cluster</b> = pack instances close for low-latency HPC; <b>Spread</b> = separate for resilience; <b>Partition</b> = grouped hardware partitions for big distributed systems.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>CloudFront</b> opens <b>local branch stores worldwide</b> stocked with copies of popular products. <b>Global Accelerator</b> is a <b>private express highway to HQ</b> — stocks nothing locally, just makes the trip faster.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Cache static/dynamic web content near users → CloudFront.</li>
+            <li>Speed up TCP/UDP or non-cacheable apps globally → Global Accelerator.</li>
+            <li>Static anycast entry IPs + fast failover → Global Accelerator.</li>
+            <li>Low-latency between instances (HPC) → Cluster placement group.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A global video site wants lower latency and to offload origin servers by caching media near viewers. Which service?</div>
+            <ol type="A"><li>AWS Global Accelerator</li><li>Amazon CloudFront</li><li>A larger EC2 instance</li><li>AWS Direct Connect</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — CloudFront.</b> A CDN that caches content at edge locations near viewers, cutting latency and offloading the origin. Global Accelerator optimizes network paths but doesn't cache.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">📊</span><span class="ltitle">Data & Analytics Services</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Know which analytics tool fits which job — a frequent exam theme:</p>
+          <table class="cmp"><tr><th>Service</th><th>What it does</th></tr>
+          <tr><td><b>Athena</b></td><td>Serverless SQL directly on S3 data — pay per query, no infra</td></tr>
+          <tr><td><b>Redshift</b></td><td>Managed petabyte data warehouse for complex BI/analytics</td></tr>
+          <tr><td><b>EMR</b></td><td>Managed Hadoop/Spark for big-data processing</td></tr>
+          <tr><td><b>Glue</b></td><td>Serverless ETL — discover, transform, catalog data</td></tr>
+          <tr><td><b>Kinesis</b></td><td>Real-time streaming data ingestion &amp; processing</td></tr></table>
+          <p>Distinctions: ad-hoc <b>SQL on S3, zero setup</b> → <b>Athena</b>. Ongoing <b>complex warehouse analytics</b> → <b>Redshift</b>. <b>Real-time</b> streaming → <b>Kinesis</b>. <b>ETL pipelines</b> → <b>Glue</b>.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>Athena</b> = <b>walking into a library and asking one question</b> — pay only for that search. <b>Redshift</b> = <b>building your own research center</b> for heavy repeated analysis. <b>Kinesis</b> = a <b>live news ticker</b> processing events as they happen.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Serverless ad-hoc SQL straight on S3 → Athena (pay per query).</li>
+            <li>Complex, repeated petabyte BI / warehouse → Redshift.</li>
+            <li>Real-time streaming ingestion → Kinesis.</li>
+            <li>Serverless ETL + data catalog → AWS Glue.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">An analyst runs occasional ad-hoc SQL directly against log files in S3, with no servers to manage. Which service?</div>
+            <ol type="A"><li>Amazon Redshift</li><li>Amazon EMR</li><li>Amazon Athena</li><li>AWS Glue</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>C — Amazon Athena.</b> Runs serverless SQL directly on S3 data, charging per query scanned — perfect for occasional ad-hoc analysis with zero infrastructure. Redshift/EMR need provisioned clusters.</div></details>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel" id="p3">
+      <div class="dintro"><div class="ic">💰</div><div>
+        <h2>Domain 4: Cost-Optimized Architectures <span style="color:var(--mut);font-size:13px">· 20%</span></h2>
+        <p>Same result, lowest bill. Match <b>pricing models</b> to usage, pick the <b>right storage tier</b> for access frequency, turn off what you don't need, and watch spend with the right tools. Smallest domain, but easy points once you know the levers.</p>
+      </div></div>
+
+      <details class="lesson"><summary><span class="lic">🏷️</span><span class="ltitle">EC2 Pricing Models</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Four ways to pay for EC2 — choosing right can cut costs 70%+:</p>
+          <table class="cmp"><tr><th>Model</th><th>Savings</th><th>Use when…</th></tr>
+          <tr><td><b>On-Demand</b></td><td>Baseline</td><td>Short-term, unpredictable, can't be interrupted</td></tr>
+          <tr><td><b>Savings Plans / Reserved</b></td><td>Up to ~72%</td><td>Steady, predictable usage (1 or 3-yr commit)</td></tr>
+          <tr><td><b>Spot</b></td><td>Up to ~90%</td><td>Fault-tolerant, flexible, interruption-OK work</td></tr>
+          <tr><td><b>Dedicated Hosts</b></td><td>Premium</td><td>Licensing/compliance needing physical isolation</td></tr></table>
+          <h4>The Spot rule</h4>
+          <p><b>Spot</b> = spare capacity at huge discount, but AWS can reclaim it with 2 min notice. Great for <b>fault-tolerant batch, big-data, CI</b>. <b>Never</b> for stateful, must-stay-up workloads. <b>Savings Plans</b> = the flexible commitment for steady baseline compute.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>On-Demand</b> = a <b>hotel booked nightly</b> (flexible, priciest). <b>Savings Plan</b> = a <b>1-year lease</b> (commit, pay much less). <b>Spot</b> = <b>standby airline tickets</b> — dirt cheap but you can get bumped, so only fly when flexible.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Steady, predictable baseline → Savings Plans / Reserved.</li>
+            <li>Fault-tolerant, interruptible batch → Spot (up to ~90% off).</li>
+            <li>Short, unpredictable, can't-be-interrupted → On-Demand.</li>
+            <li>Never run stateful must-stay-up systems on Spot.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">A nightly batch job can be safely interrupted and restarted, and you want the lowest compute cost. Which pricing model?</div>
+            <ol type="A"><li>On-Demand Instances</li><li>Spot Instances</li><li>Dedicated Hosts</li><li>Reserved Instances</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Spot Instances.</b> Deepest discount (up to ~90%) and ideal for fault-tolerant, interruption-tolerant work like restartable batch. On-Demand and Reserved cost far more for this flexible workload.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">🪣</span><span class="ltitle">S3 Storage Classes & Lifecycle</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Pay less by matching storage class to access frequency:</p>
+          <table class="cmp"><tr><th>Class</th><th>Best for</th></tr>
+          <tr><td><b>S3 Standard</b></td><td>Frequently accessed, hot data</td></tr>
+          <tr><td><b>Intelligent-Tiering</b></td><td><b>Unknown/changing</b> access — auto-moves tiers</td></tr>
+          <tr><td><b>Standard-IA / One Zone-IA</b></td><td>Infrequent access (lower storage, retrieval fee)</td></tr>
+          <tr><td><b>Glacier Instant/Flexible/Deep Archive</b></td><td>Archive — cheapest, retrieval delay (mins→hours)</td></tr></table>
+          <h4>Two big exam levers</h4>
+          <p><b>Lifecycle policies</b> auto-transition objects to cheaper tiers (or delete) as they age — e.g. logs: Standard → IA at 30d → Glacier at 90d → delete at 7y. <b>Intelligent-Tiering</b> is the answer when access is <b>unknown/unpredictable</b> — it auto-optimizes with no retrieval penalties.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> daily stuff on the <b>shelf</b> (Standard), seasonal items in the <b>closet</b> (IA), heirlooms in a <b>distant storage unit</b> (Glacier). <b>Intelligent-Tiering</b> is a <b>smart assistant</b> who moves things between them based on what you actually touch.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Unknown/changing access patterns → S3 Intelligent-Tiering.</li>
+            <li>Automate tier transitions by age → S3 Lifecycle policies.</li>
+            <li>Rarely accessed but needs fast retrieval → Standard-IA.</li>
+            <li>Long-term archive, cheapest → Glacier Deep Archive.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">Data has unpredictable access — sometimes hot, sometimes idle for months — and you want automatic cost optimization with no retrieval fees. Which S3 class?</div>
+            <ol type="A"><li>S3 Glacier Deep Archive</li><li>S3 Standard</li><li>S3 Intelligent-Tiering</li><li>S3 One Zone-IA</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>C — S3 Intelligent-Tiering.</b> Auto-moves objects between tiers based on usage, with no retrieval fees — ideal when access patterns are unknown or change. Glacier would penalize the unexpected hot reads.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">⏰</span><span class="ltitle">Right-Sizing, Scheduling & Serverless Savings</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>The cheapest resource is the one you're not running.</p>
+          <h4>Stop paying for idle</h4>
+          <p><b>Right-sizing</b>: match instance size to real utilization (Compute Optimizer recommends). <b>Scheduling</b>: stop/start non-prod instances outside business hours — a dev fleet running 24/7 wastes ~65% of its cost.</p>
+          <h4>Scheduling vs Spot</h4>
+          <p>For <b>stateful dev/test instances that must keep their data</b>, the win is <b>stop/start scheduling</b> — NOT Spot (Spot terminates them and loses state). Spot is only for interruption-tolerant work.</p>
+          <h4>Go serverless</h4>
+          <p><b>Lambda, Fargate, DynamoDB on-demand, Aurora Serverless</b> scale to zero — pay nothing when idle, eliminating waste for spiky workloads.</p>
+          <div class="analogy">🪄 <b>Picture it:</b> leaving dev servers on overnight is like <b>leaving every light and the AC running in an empty office all weekend</b>. <b>Scheduling</b> is the <b>timer that shuts it off at 6pm and back on at 8am</b> — same productivity, a fraction of the bill.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Stateful dev/test fleet → stop/start scheduling (keeps data).</li>
+            <li>Match size to real usage → right-sizing (Compute Optimizer).</li>
+            <li>Spiky/idle workloads → serverless scales to zero.</li>
+            <li>Don't use Spot for instances that must preserve state.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">Stateful dev EC2 instances are used 9am–6pm weekdays but run 24/7. Best cost optimization?</div>
+            <ol type="A"><li>Move them to Spot Instances</li><li>Schedule automatic stop/start outside business hours</li><li>Buy 3-year Reserved Instances</li><li>Switch to the largest instance type</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — Stop/start scheduling.</b> Cuts the bill for predictable usage hours while preserving state. Spot would terminate them and lose data; Reserved suits always-on steady usage.</div></details>
+          </div>
+        </div>
+      </details>
+
+      <details class="lesson"><summary><span class="lic">📉</span><span class="ltitle">Data Transfer Costs & Cost Management Tools</span><span class="chev">▶</span></summary>
+        <div class="lbody">
+          <p>Two final levers: reduce data-transfer charges, and actually <b>watch</b> your spend.</p>
+          <h4>Cut transfer costs</h4>
+          <div class="chips">
+            <span class="chip"><b>CloudFront</b> — caching cuts origin egress charges</span>
+            <span class="chip"><b>VPC Endpoints</b> — reach AWS services privately, avoid NAT/egress</span>
+            <span class="chip"><b>Same-AZ traffic</b> — keep chatty components in one AZ</span>
+          </div>
+          <p>Transfer <b>out to the internet</b> costs money; <b>into</b> AWS is usually free. A <b>NAT Gateway</b> charges per hour + per GB — route S3/DynamoDB traffic through a free <b>VPC Gateway Endpoint</b> instead.</p>
+          <h4>Visibility & governance</h4>
+          <table class="cmp"><tr><th>Tool</th><th>Purpose</th></tr>
+          <tr><td><b>Cost Explorer</b></td><td>Visualize &amp; analyze past/forecast spend</td></tr>
+          <tr><td><b>Budgets</b></td><td>Set thresholds + alerts before overspending</td></tr>
+          <tr><td><b>Cost Allocation Tags</b></td><td>Attribute cost to teams/projects</td></tr>
+          <tr><td><b>Trusted Advisor</b></td><td>Recommends savings (idle/underused resources)</td></tr></table>
+          <div class="analogy">🪄 <b>Picture it:</b> <b>Cost Explorer</b> = <b>reviewing last month's bank statement</b>. <b>Budgets</b> = the <b>app alert that pings you before you overspend</b>. <b>Trusted Advisor</b> = a <b>financial advisor pointing out subscriptions you forgot to cancel</b>.</div>
+          <h4>🎯 Key takeaways</h4>
+          <ul class="takeaways">
+            <li>Reach S3/DynamoDB privately + free → VPC Gateway Endpoints.</li>
+            <li>Cut internet egress on web content → CloudFront caching.</li>
+            <li>Proactive spend alerts → AWS Budgets.</li>
+            <li>Analyze/forecast cost trends → Cost Explorer; tag for attribution.</li>
+          </ul>
+          <div class="check"><div class="qlab">🧠 CHECK YOURSELF</div>
+            <div class="q">You want an alert email the moment projected monthly spend will exceed $5,000. Which tool?</div>
+            <ol type="A"><li>AWS Cost Explorer</li><li>AWS Budgets</li><li>AWS Trusted Advisor</li><li>Cost Allocation Tags</li></ol>
+            <details class="reveal"><summary>Show answer</summary>
+              <div class="ans"><b>B — AWS Budgets.</b> Set cost/usage thresholds and get alerts when actual or forecasted spend crosses them. Cost Explorer analyzes spend but doesn't send threshold alerts.</div></details>
+          </div>
+        </div>
+      </details>
+    </section>
+
+  </div>
+  <footer>🐾 SAA-C03 Academy · concept-first study material · works fully offline, no login needed · pairs with your saa-c03-study-guide (gap drills)</footer>
+</div><script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function (e) { console.log('SW failed', e); });
+    });
+  }
+</script>
+</body>
+</html>
